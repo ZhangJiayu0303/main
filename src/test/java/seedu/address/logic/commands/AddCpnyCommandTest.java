@@ -26,9 +26,9 @@ import seedu.address.model.ReadOnlyAddressBook;
 import seedu.address.model.ReadOnlyUserPrefs;
 import seedu.address.model.person.Company;
 import seedu.address.model.person.Person;
-import seedu.address.testutil.PersonBuilder;
+import seedu.address.testutil.CompanyBuilder;
 
-public class AddCommandTest {
+public class AddCpnyCommandTest {
 
     private static final CommandHistory EMPTY_COMMAND_HISTORY = new CommandHistory();
 
@@ -38,56 +38,53 @@ public class AddCommandTest {
     private CommandHistory commandHistory = new CommandHistory();
 
     @Test
-    public void constructor_nullPerson_throwsNullPointerException() {
+    public void constructor_nullCompany_throwsNullPointerException() {
         thrown.expect(NullPointerException.class);
         new AddCommand(null);
     }
 
     @Test
-    public void execute_personAcceptedByModel_addSuccessful() throws Exception {
-        ModelStubAcceptingPersonAdded modelStub = new ModelStubAcceptingPersonAdded();
-        Person validPerson = new PersonBuilder().build();
+    public void execute_companyAcceptedByModel_addSuccessful() throws Exception {
+        ModelStubAcceptingCompanyAdded modelStub = new ModelStubAcceptingCompanyAdded();
+        Company validCompany = new CompanyBuilder().build();
 
-        CommandResult commandResult = new AddCommand(validPerson).execute(modelStub, commandHistory);
+        CommandResult commandResult = new AddCpnyCommand(validCompany).execute(modelStub, commandHistory);
 
-        assertEquals(String.format(AddCommand.MESSAGE_SUCCESS, validPerson), commandResult.getFeedbackToUser());
-        assertEquals(Arrays.asList(validPerson), modelStub.personsAdded);
+        assertEquals(String.format(AddCommand.MESSAGE_SUCCESS, validCompany), commandResult.getFeedbackToUser());
+        assertEquals(Arrays.asList(validCompany), modelStub.companiesAdded);
         assertEquals(EMPTY_COMMAND_HISTORY, commandHistory);
     }
 
     @Test
-    public void execute_duplicatePerson_throwsCommandException() throws Exception {
-        Person validPerson = new PersonBuilder().build();
-        AddCommand addCommand = new AddCommand(validPerson);
-        ModelStub modelStub = new ModelStubWithPerson(validPerson);
+    public void execute_duplicateCompany_throwsCommandException() throws Exception {
+        Company validCompany = new CompanyBuilder().build();
+        AddCpnyCommand addCpnyCommand = new AddCpnyCommand(validCompany);
+        ModelStub modelStub = new ModelStubWithCompany(validCompany);
 
         thrown.expect(CommandException.class);
-        thrown.expectMessage(AddCommand.MESSAGE_DUPLICATE_PERSON);
-        addCommand.execute(modelStub, commandHistory);
+        thrown.expectMessage(AddCpnyCommand.MESSAGE_DUPLICATE_COMPANY);
+        addCpnyCommand.execute(modelStub, commandHistory);
     }
 
     @Test
     public void equals() {
-        Person alice = new PersonBuilder().withName("Alice").build();
-        Person bob = new PersonBuilder().withName("Bob").build();
-        AddCommand addAliceCommand = new AddCommand(alice);
-        AddCommand addBobCommand = new AddCommand(bob);
+        Company burger = new CompanyBuilder().withName("Burger").build();
+        Company hardy = new CompanyBuilder().withName("Hardy").build();
+        AddCpnyCommand addBurgerCommand = new AddCpnyCommand(burger);
+        AddCpnyCommand addHardyCommand = new AddCpnyCommand(hardy);
 
         // same object -> returns true
-        assertTrue(addAliceCommand.equals(addAliceCommand));
+        assertTrue(addBurgerCommand.equals(addBurgerCommand));
 
-        // same values -> returns true
-        AddCommand addAliceCommandCopy = new AddCommand(alice);
-        assertTrue(addAliceCommand.equals(addAliceCommandCopy));
 
         // different types -> returns false
-        assertFalse(addAliceCommand.equals(1));
+        assertFalse(addBurgerCommand.equals(1));
 
         // null -> returns false
-        assertFalse(addAliceCommand.equals(null));
+        assertFalse(addBurgerCommand.equals(null));
 
-        // different person -> returns false
-        assertFalse(addAliceCommand.equals(addBobCommand));
+        // different company -> returns false
+        assertFalse(addBurgerCommand.equals(addHardyCommand));
     }
 
     /**
@@ -135,7 +132,7 @@ public class AddCommandTest {
 
         /**
          * Deletes a given company
-         * The person must exist in the address book.
+         * The company must exist in the address book.
          *
          * @param target
          */
@@ -187,8 +184,11 @@ public class AddCommandTest {
 
         @Override
         public boolean hasCompany(Company company) {
+            /*
             throw new AssertionError("This method should not be" +
                     " called.");
+                    */
+            return true;
         }
 
         @Override
@@ -314,26 +314,28 @@ public class AddCommandTest {
     /**
      * A Model stub that contains a single person.
      */
-    private class ModelStubWithPerson extends ModelStub {
-        private final Person person;
+    private class ModelStubWithCompany extends ModelStub {
+        private final Company company;
 
-        ModelStubWithPerson(Person person) {
-            requireNonNull(person);
-            this.person = person;
+        ModelStubWithCompany(Company company) {
+            requireNonNull(company);
+            this.company = company;
         }
 
         @Override
-        public boolean hasPerson(Person person) {
-            requireNonNull(person);
-            return this.person.isSamePerson(person);
+        public boolean hasCompany(Company company) {
+            requireNonNull(company);
+            return this.company.isSameCompany(company);
         }
     }
 
     /**
      * A Model stub that always accept the person being added.
      */
-    private class ModelStubAcceptingPersonAdded extends ModelStub {
+    private class ModelStubAcceptingCompanyAdded extends ModelStub {
         final ArrayList<Person> personsAdded = new ArrayList<>();
+        final ArrayList<Person> companiesAdded = new ArrayList<>();
+
 
         @Override
         public boolean hasPerson(Person person) {
@@ -345,6 +347,16 @@ public class AddCommandTest {
         public void addPerson(Person person) {
             requireNonNull(person);
             personsAdded.add(person);
+        }
+        /*
+        public boolean hasCompany(Company company) {
+            requireNonNull(company);
+            return companiesAdded.stream().anyMatch(company::isSameCompany);
+        }
+        */
+        public void addCompany(Person company) {
+            requireNonNull(company);
+            companiesAdded.add(company);
         }
 
         @Override
@@ -359,3 +371,4 @@ public class AddCommandTest {
     }
 
 }
+

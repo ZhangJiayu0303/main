@@ -5,7 +5,7 @@ import seedu.address.model.Model;
 
 import static java.util.Objects.requireNonNull;
 
-public class FindminCommand extends Command{
+public class FindminCommand extends Command {
 
     public static final String COMMAND_WORD = "findminsa";
 
@@ -16,8 +16,9 @@ public class FindminCommand extends Command{
         requireNonNull(model);
         int min = 999999999;
         for(int i = 0; i < model.getFilteredPersonList().size(); i++) {
-            if (Integer.parseInt(String.valueOf(model.getFilteredPersonList().get(i).getSalary()))<min)
-                min=Integer.parseInt(String.valueOf(model.getFilteredPersonList().get(i).getSalary()));
+            if (Integer.parseInt(String.valueOf(model.getFilteredPersonList().get(i).getSalary())) < min) {
+                min = Integer.parseInt(String.valueOf(model.getFilteredPersonList().get(i).getSalary()));
+            }
         }
 
         return new CommandResult(

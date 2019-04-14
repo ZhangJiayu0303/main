@@ -191,6 +191,7 @@ Given below is the Sequence Diagram for interactions within the `Logic` componen
 .Interactions Inside the Logic Component for the `delete 1` Command
 image::DeletePersonSdForLogic.png[width="800"]
 
+// tag::modelc[]
 [[Design-Model]]
 === Model component
 
@@ -218,6 +219,7 @@ At the current time, with the commands 'addcpny' and 'listcpny' the user can add
 As a more OOP model, we can store a `Tag` list in `Address Book`, which `Person` can reference. This would allow `Address Book` to only require one `Tag` object per unique `Tag`, instead of each `Person` needing their own `Tag` object. An example of how such a model may look like is given below. +
  +
 image:ModelClassBetterOopDiagram.png[width="800"]
+// end::modelc[]
 
 [[Design-Storage]]
 === Storage component
@@ -326,13 +328,15 @@ image::UndoRedoActivityDiagram.png[width="650"]
 ==== Current Implementation
 
 The favorite system is facilitated by `AddressBook`,
-It extends the address book system by allowing the user to save favorites, stored internally as a `UniquePersonList`.
+it extends the address book system by allowing the user to save/delete/list favorites, stored internally as a `UniquePersonList`.
 Additionally, it implements the following operations:
 
 * `AddressBook#addFavorites()` -- Saves the person into the favorites list.
+* `AddressBook#removeFavorite()` -- Removes the person from the favorites list.
+* `AddressBook#hasFavorite()` -- Checks if the person exists in the favorites list.
 * `AddressBook#getFavoritesList()` -- Returns a list of all favorite persons.
 
-These operations are exposed in the `Model` interface as `Model#addFavorites()` and `Model#getFavoritesList()`.
+These operations are exposed in the `Model` interface as `Model#addFavorites()`, `Model#removeFavorite()`, `Model#hasFavorite()`, and `Model#getFavoritesList()`.
 
 Given below is an example usage scenario of how the favorite mechanism behaves at each step.
 
@@ -343,6 +347,10 @@ Step 2. The user executes `favorite Alex` to save the person Alex into their fav
 Step 3. The user repeats this a few times, adding a few other persons.
 
 Step 4. The user wants to view all favorites and executes `listFav` to view all favorites. This creates a new `PersonIsFavoritePredicate` which is passed in a model and calls `Model#getFavoritesList` and check if it contains the person. The command class then calls `Model#updateFilteredPersonList` with the predicate to only display all filtered (favorite) persons.
+
+Step 5. The user notices they accidentally added the wrong person (Alex for example) into the favorites list and executes `delFav Alex Yeoh` to remove them from the favorites list.
+
+The following is a sequence diagram describing the flow of how the favorite command works behind the scenes.
 
 image::favoriteActivityDiagram.png[width="650"]
 
@@ -358,7 +366,15 @@ Favorites are stored in addressbook.json as another entry into the existing dict
 * **Alternative 2:** Linked list to store favorites.
 ** Pros: Efficient to delete favorites from anywhere in the list.
 ** Cons: We must ensure that the implementation is proper as there is a lot of complexity.
-_
+
+===== Aspect: Method of marking favorites
+
+* **Alternative 1 (current choice):** Create another entry into the dictionary within addressbook.json to store favorites over multiple sessions.
+** Pros: Easy to implement, clean seperate commands/functions related to adding/deleting from favorites (doesn't affect addressbook contacts in any way).
+** Cons: A lot of data is repeated when storing favorites.
+* **Alternative 2:** Create an extra boolean attribute within each person to store favorite status.
+** Pros: More space effective.
+** Cons: We must ensure that the implementation is proper as we can accidentally affect the persons that are regular contacts, harder to visually inspect our json file to see who favorites are/aren't.
 
 // end::favoriteSystem[]
 
@@ -880,7 +896,7 @@ See this https://github.com/se-edu/addressbook-level4/pull/599[PR] for the step-
 * is reasonably comfortable using CLI apps
 
 *Value proposition*: manage contacts faster than a typical mouse/GUI driven app
-
+// tag::users[]
 [appendix]
 == User Stories
 
@@ -918,7 +934,7 @@ Priorities: High (must have) - `* * \*`, Medium (nice to have) - `* \*`, Low (un
 |`*` |user |hide <<private-contact-detail,private contact details>> by default |minimize chance of someone else seeing them by accident
 |=======================================================================
 
-_{More to be added}_
+// end::users[]
 
 [appendix]
 == Use Cases
@@ -1044,6 +1060,8 @@ Cons:
 
 Given below are instructions to test the app manually.
 
+Testing `Company`
+
 [NOTE]
 These instructions only provide a starting point for testers to work on; testers are expected to do more _exploratory_ testing.
 
@@ -1077,10 +1095,41 @@ _{ more test cases ... }_
 
 _{ more test cases ... }_
 
-=== Saving data
+=== Adding a company
 
-. Dealing with missing/corrupted data files
+. Adding a company to the application
 
-.. _{explain how to simulate a missing/corrupted file and the expected behavior}_
+.. Prerequisites: None
+.. Test Case: `addcpny n/Walmart p/98765432 e/walmart@gmail.com a/John street, block 123, #01-01  s/234525223 o/Retail r/Corporation`
 
-_{ more test cases ... }_
+=== List all companies
+
+. Listing companies within the application
+
+.. Prerequisites: There must already be at least one company stored in the application
+.. Test Case: `listcpny`
+
+=== Editing a company
+
+. Editing a company
+
+.. Prerequisites: There must be at least one company stored in the application
+.. Test Case: `editcpny 1 p/91234567 e/monay@example.com` +
+   Expected: edits the first company in the company column
+
+=== Finding a company
+
+. Finding a company
+
+.. Prerequisites: The company that is searched for must exist
+.. Test Case: `find Burger` +
+   Expected: May return `Burger Spot` and `Burger King` if both exist as companies
+
+=== Deleting a company
+
+. Deleting a company while all companies are listed
+
+.. Prerequisites: List all companies using the `listcpny` command.
+.. Test case: `delete 1` +
+   Expected: First company is deleted from the list. Details of the deleted company shown in the status message.
+

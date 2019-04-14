@@ -22,19 +22,22 @@ Marketing Morph is a desktop marketing application. It has a GUI but most of the
 
 * *Minor enhancement*: helped with the implementation of the favorite function that allowed contacts to be saved into a favorites group.
 
-* *Code contributed*: _{give links to collated code files}_
+* *Code contributed*: https://nus-cs2103-ay1819s2.github.io/cs2103-dashboard/#search=roanurquhart
 
 * *Other contributions*:
 
 ** Project management:
 *** Worked with teammates to diagnose and fix bugs
+*** Worked to maintain a reasonable timeline for feature completion
 ** Enhancements to existing features:
-***
+*** Enhanced existing UI features to allow for a more user-friendly display of contact data
 ** Documentation:
-***
+*** Extensive additions to the User Guide that document the functionality of the `Company` objects
+*** Updates to the application architecture in the Developer Guide with respect to the addition of the Company structure
+*** Detailed user stories added in the appendix of the Developer Guide
 ** Community:
-***
-***
+*** Asked several questions in the forum
+
 
 == Contributions to the User Guide
 
@@ -43,15 +46,15 @@ Marketing Morph is a desktop marketing application. It has a GUI but most of the
 |_Given below are sections I contributed to the User Guide. They showcase my ability to write documentation targeting end-users._
 |===
 
-include::UserGuide.adoc[tag=addcpny]
+include::../UserGuide.adoc[tag=addcpny]
 
-include::UserGuide.adoc[tag=listcpny]
+include::../UserGuide.adoc[tag=listcpny]
 
-include::UserGuide.adoc[tag=editcpny]
+include::../UserGuide.adoc[tag=editcpny]
 
-include::UserGuide.adoc[tag=findcpny]
+include::../UserGuide.adoc[tag=findcpny]
 
-include::UserGuide.adoc[tag=deletecpny]
+include::../UserGuide.adoc[tag=deletecpny]
 
 == Contributions to the Developer Guide
 
@@ -59,6 +62,6 @@ include::UserGuide.adoc[tag=deletecpny]
 |_Given below are sections I contributed to the Developer Guide. They showcase my ability to write technical documentation and the technical depth of my contributions to the project._
 |===
 
-include::../DeveloperGuide.adoc[tag=Model component]
+include::../DeveloperGuide.adoc[tag=modelc]
 
-include::../DeveloperGuide.adoc[tag=User stories]
+include::../DeveloperGuide.adoc[tag=users]

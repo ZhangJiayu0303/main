@@ -11,17 +11,15 @@ import java.util.Comparator;
 
 public class SortPersonCommandParser {
 
-    public SortPersonCommand parse(String args) throws ParseException
-    {
+    public SortPersonCommand parse(String args) throws ParseException {
         String trimmedArgs = args.trim();
         String[] keywords = trimmedArgs.split("\\s+");
 
 
-        try{
+        try {
             Comparator<Person> Compare_function = PersonComparator.GetFunction(keywords[0]);
             return new SortPersonCommand(Compare_function,keywords[0],keywords[1]);
-        } catch (ParseException pe)
-        {
+        } catch (ParseException pe) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT,SortPersonCommand.MESSAGE_USAGE),pe);
         }
     }

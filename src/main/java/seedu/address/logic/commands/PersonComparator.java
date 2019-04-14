@@ -18,8 +18,8 @@ public class PersonComparator {
     private static Comparator PersonSalary = new Comparator<Person> () {
         @Override
         public int compare(Person o1, Person o2) {
-            Integer sa1=Integer.parseInt(String.valueOf(o1.getSalary()));
-            Integer sa2=Integer.parseInt(String.valueOf(o2.getSalary()));
+            Integer sa1 = Integer.parseInt(String.valueOf(o1.getSalary()));
+            Integer sa2 = Integer.parseInt(String.valueOf(o2.getSalary()));
             return sa1.compareTo(sa2);
         }
     };
@@ -27,8 +27,8 @@ public class PersonComparator {
     private static Comparator PersonPhone = new Comparator<Person>() {
         @Override
         public int compare(Person o1, Person o2) {
-            Integer sa1=Integer.parseInt(String.valueOf(o1.getPhone()));
-            Integer sa2=Integer.parseInt(String.valueOf(o2.getPhone()));
+            Integer sa1 = Integer.parseInt(String.valueOf(o1.getPhone()));
+            Integer sa2 = Integer.parseInt(String.valueOf(o2.getPhone()));
             return sa1.compareTo(sa2);
         }
     };
@@ -62,8 +62,7 @@ public class PersonComparator {
     };
 
 
-    public static Comparator<Person> GetFunction(String parameter) throws ParseException
-    {
+    public static Comparator<Person> GetFunction(String parameter) throws ParseException {
         Comparator<Person> compare_function;
 
         switch (parameter.trim())

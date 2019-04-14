@@ -69,6 +69,7 @@ Examples:
 * `add n/Jane Doe p/23456789 e/janed@example.com a/113, Clementi Ave 2, #02-24 s/5000 o/teacher r/single`
 * `add n/John Doe p/98765432 e/johnd@example.com a/311, Clementi Ave 2, #02-25 s/100000 o/banker r/single t/friends t/owesMoney`
 
+// tag::addcpny[]
 === Adding a company : `addcpny`
 
 Adds a company to the client list
@@ -85,17 +86,19 @@ Examples:
 `addcpny` n/Walmart p/98765432 e/walmart@gmail.com a/John street, block 123, #01-01  s/234525223 o/Retail r/Corporation
 
 `addcpny` n/Betsy Cakes p/1234567 e/cakes@gmail.com a/Bob street, block 232 s/2242023 o/Food r/LocalBusiness t/popular  t/local
+// end::addcpny[]
 
 === Listing all persons : `list`
 
 Shows a list of all persons in the consumer list. +
 Format: `list`
 
-
+// tag::listcpny[]
 === Listing all companies : `listcpny`
 
 Shows a list of all companies in the clients list. +
 Format: `listcpny`
+// end::listcpny[]
 
 === Editing a person : `edit`
 
@@ -117,7 +120,7 @@ Edits the phone number and email address of the 1st person to be `91234567` and 
 * `edit 2 n/Betsy Crower t/` +
 Edits the name of the 2nd person to be `Betsy Crower` and clears all existing tags.
 
-
+// tag::editcpny[]
 === Editing a company : `editcpny`
 
 Edits an existing company in the client list. +
@@ -137,6 +140,7 @@ Examples:
 Edits the phone number and email address of the 1st company to be `91234567` and `monay@example.com` respectively.
 * `editcpny 2 n/Small Money t/` +
 Edits the name of the 2nd company to be `Small Money` and clears all existing tags.
+// end::editcpny[]
 
 === Locating persons by name : `find`
 
@@ -158,7 +162,7 @@ Returns `john` and `John Doe`
 * `find Betsy Tim John` +
 Returns any person having names `Betsy`, `Tim`, or `John`
 
-
+// tag::findcpny[]
 === Locating companies by name : `findcpny`
 
 Finds companies whose names contain any of the given keywords. +
@@ -178,7 +182,7 @@ Examples:
 Returns `Burger Spot` and `Burger King`
 * `find Burger Taco Shoes` +
 Returns any person having names `Burger`, `Taco`, or `Shoes`
-
+// end::findcpny[]
 
 === Deleting a person : `delete`
 
@@ -200,6 +204,7 @@ Deletes the 2nd person in the address book.
 `delete 1` +
 Deletes the 1st person in the results of the `find` command.
 
+// tag::deletecpny[]
 === Deleting a company : `deletecpny`
 
 Deletes the specified Company from the address book. +
@@ -219,6 +224,7 @@ Deletes the 2nd company in the address book.
 * `find Burger` +
 `delete 1` +
 Deletes the 1st company in the results of the `find` command.
+// end::deletecpny[]
 
 === Selecting a person : `select`
 
@@ -369,6 +375,9 @@ Examples:
 
 * `favorite John` (recommends all John's in the addressbook, adds none)
 
+image::multipleJohns.png[width="200"]
+
+
 === Delete person from favorite list: `delFav`
 
 Removes a person to the “favorite” list
@@ -389,9 +398,20 @@ Examples:
 
 === List the favorite list: `listFav`
 
-Lists all persons in the “favorite” list under the clients panel
+Lists all persons in the “favorite” list under the clients panel in alphabetical order
 
 Format: `listFav`
+
+Example:
+
+* `favorite John Doe` +
+`favorite Alex Yeoh` +
+`favorite Roy Balakrishnan` +
+`favorite David Li` +
+`listFav`
+
+image::listFav.png[width="400"]
+
 // end::favorite[]
 
 === Create group: `group` `[coming in v1.4]`
